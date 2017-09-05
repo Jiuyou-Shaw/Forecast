@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <script src="scripts\hmac-sha1.js"></script>
+    <script src="scripts\jquery.js"></script>
+    <!--
+    <script src="scripts\city.js"></script>
+    
+    <script src="scripts\weather.js"></script>
+    -->
+  </head>
+  
+  <body>
+    <div id="city">
+    </div>
+    <div id="content"></div>
+    <script>
+      var AK = "1tgj5I8qaiFEh5BGgbXHf41CpexY4EoB";
+      var KEY = "dfzdhlqmyfa92cek";
+      var UID = "UC47E98595";
+      var API = "https://api.seniverse.com/v3/weather/now.json";
+      
+      getCity(AK);
+
+      function getCity(ak) {
+        var oUrl = 'http://api.map.baidu.com/location/ip?ak=' + ak + '&coor=bd09ll&callback=baiduCallback';
+        createScript(oUrl);
+      }
+
+      function baiduCallback(data) {
+        var oCity = data.content.address_detail.city.replace("市", "");
+        console.log('baiduck:'+oCity);
+        setUrl(oCity);
+      }
+
+      function setUrlStr() {
+        var ts = Math.floor((new Date()).getTime() / 1000);
+        var str = "ts=" + ts + "&uid=" + UID;
+        var sig = CryptoJS.HmacSHA1(str, KEY).toString(CryptoJS.enc.Base64);
+
+        sig = encodeURIComponent(sig);
+        return str = str + "&sig=" + sig;
+      }
+
+      function setUrl(city) {
+        var str = setUrlStr();
+        console.log(str);
+        var oUrl = API + "?location=" + city + "&" + str + "&callback=jsonCallback";
+        console.log('seturl:'+city);
+
+        createScript(oUrl);
+      }
+
+      function createScript(url) {
+        var newScript = document.createElement("script");
+        newScript.type = "text/javascript";
+        newScript.src = url;
+        document.body.append(newScript);
+      }
+
+      function jsonCallback(data) {
+        var obj = document.getElementById("content");
+        var weather = data.results[0];
+        console.log('city' + weather.location.name)
+        console.log('tem' + weather.now.temperature);
+        console.log('now' + weather.now.text);
+      }
+
+      // 获取城市IP
+      // function geoSuccess(pos) {
+      //   var crd = pos.coords;
+      //   var lat = crd.latitude;
+      //   var lon = crd.longitude;
+
+      //   var cityCrd = lat + ":" + lon;
+
+      //   setUrl(cityCrd);
+      // }      
+      
+      // function showError(error){   
+      //   switch(error.code) {   
+      //     case error.PERMISSION_DENIED:   
+      //       alert("定位失败,用户拒绝请求地理定位");   
+      //       break;   
+      //     case error.POSITION_UNAVAILABLE:   
+      //       alert("定位失败,位置信息不可用");   
+      //       break;   
+      //     case error.TIMEOUT:   
+      //       alert("定位失败,请求获取用户位置超时");   
+      //       break;   
+      //     case error.UNKNOWN_ERROR:   
+      //       alert("定位失败,定位系统失效");   
+      //       break;   
+      //   }   
+      // };
+
+      // navigator.geolocation.getCurrentPosition(geoSuccess, showError);
+
+
+      
+
+      
+    </script>
+  </body>
+</html>
