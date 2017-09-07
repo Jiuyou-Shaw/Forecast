@@ -10,81 +10,79 @@
   
   <body>
     <div class="container">
-      
-        <div class="today">
-          <div class="city t_item"></div>        
-          <div class="today_con">
-            <div class="today_icon t_item"></div>
-            <div class="today_tem">
-              <span class="tem_num t_item"></span>
-              <span class="tem_icon">o</span>
-            </div>          
-          </div>
-          <div class="today_text t_item"></div>
+      <div class="today">
+        <div class="city t_item"></div>        
+        <div class="today_con">
+          <div class="today_icon t_item"></div>
+          <div class="today_tem">
+            <span class="tem_num t_item"></span>
+            <span class="tem_icon">o</span>
+          </div>          
         </div>
+        <div class="today_text t_item"></div>
+      </div>
       
-
       <div class="detail">
         <div class="car">
           洗车：
-          <span class="d_item "></span>
+          <span class="d_item"></span>
         </div>
         <div class="dress">
           穿衣：
-          <span class="d_item "></span>
+          <span class="d_item"></span>
         </div>
         <div class="flu">
           感冒：
-          <span class="d_item "></span>
+          <span class="d_item"></span>
         </div>
         <div class="sport">
           运动：
-          <span class="d_item "></span>
+          <span class="d_item"></span>
         </div>
         <div class="travel">
           旅游：
-          <span class="d_item "></span>
+          <span class="d_item"></span>
         </div>
         <div class="uv">
           紫外线强度：
-          <span class="d_item "></span>
+          <span class="d_item"></span>
         </div>
       </div>
 
       <div class="future">
         <div class="future_con">
-          <div class="f_item day_one">
-            <div class="date day1_item"></div>
-            <div class="d_icon day1_item icon"></div>
+          <div class="f_item">
+            <div class="date"></div>
+            <div class="d_icon icon"></div>
             <div class="wea_tem">
-              <span class="tem_high day1_item"></span>
-              <span class="tem_low day1_item"></span>
+              <span class="tem_high"></span>
+              <span class="tem_low"></span>
             </div>
-            <div class="d_text day1_item"></div>
-            <div class="n_icon day1_item icon"></div>
-            <div class="n_text day1_item"></div>
+            <div class="d_text"></div>
+            <div class="n_icon icon"></div>
+            <div class="n_text"></div>
           </div>
-          <div class="f_item day_two">
-            <div class="date day2_item"></div>
-            <div class="d_icon day2_item icon"></div>
+          <div class="f_item">
+            <div class="date"></div>
+            <div class="d_icon icon"></div>
             <div class="wea_tem">
-              <span class="tem_high day2_item"></span>
-              <span class="tem_low day2_item"></span>
+              <span class="tem_high"></span>
+              <span class="tem_low"></span>
             </div>
-            <div class="d_text day2_item"></div>
-            <div class="n_icon day2_item icon"></div>
-            <div class="n_text day2_item"></div>
+            <div class="d_text"></div>
+            <div class="n_icon icon"></div>
+            <div class="n_text"></div>
           </div>
-          <div class="f_item day_three">
-            <div class="date day3_item"></div>
-            <div class="d_icon day3_item icon"></div>
+          <div class="f_item">
+            <div class="date"></div>
+            <div class="d_icon icon"></div>
             <div class="wea_tem">
-              <span class="tem_high day3_item"></span>
-              <span class="tem_low day3_item"></span>
+              <span class="tem_high"></span>
+              <span class="tem_low"></span>
             </div>
-            <div class="d_text day3_item"></div>
-            <div class="n_icon day3_item icon"></div>
-            <div class="n_text day3_item"></div>
+            <div class="d_text"></div>
+            <div class="n_icon icon"></div>
+            <div class="n_text"></div>
           </div>
         </div>
       </div>
@@ -125,12 +123,10 @@
 
       function setUrl(city) {
         var str = setUrlStr();
-        console.log(str);
         var nowUrl = nowApi + "?location=" + city + "&" + str + "&callback=nowCallback";
         var dailyUrl = dailyApi + "?location=" + city + "&" + str + "&callback=dailyCallback";
         var lifeSugUrl = lifeSugApi + "?location=" + city + "&" + str + "&callback=lifeSugCallback";
         var searchUrl = searchApi + "?" + str + "&q=" + city + "&callback=searchCallback";
-        console.log('cityInUrl: '+city);
 
         createScript(nowUrl);
         createScript(dailyUrl);
@@ -148,6 +144,7 @@
       function nowCallback(data) {
         var tItems = document.querySelectorAll(".t_item");
         var weather = data.results[0];
+
         tItems[0].innerText = weather.location.name;
         tItems[1].style.background = 'url(img/180/' + weather.now.code + '.png)  center center';
         tItems[2].innerText = weather.now.temperature;
@@ -155,34 +152,25 @@
       }
 
       function dailyCallback(data)  {
-        var day1Items = document.querySelectorAll(".day1_item");
-        var wDaily = data.results[0].daily;
-        day1Items[0].innerText = wDaily[0].date;
-        day1Items[1].innerHTML = '<img src="img/180/' + wDaily[0].code_day + '.png">';  
-        day1Items[2].innerText = wDaily[0].high + "℃";
-        day1Items[3].innerText = wDaily[0].low + "℃";
-        day1Items[4].innerText = wDaily[0].text_day;
-        day1Items[5].innerHTML = '<img src="img/180/' + wDaily[0].code_night + '.png">';
-        day1Items[6].innerText = wDaily[0].text_night;
-
-        var day2Items = document.querySelectorAll(".day2_item");
-        day2Items[0].innerText = wDaily[1].date;
-        day2Items[1].innerHTML = '<img src="img/180/' + wDaily[1].code_day + '.png">';  
-        day2Items[2].innerText = wDaily[1].high + "℃";
-        day2Items[3].innerText = wDaily[1].low + "℃";
-        day2Items[4].innerText = wDaily[1].text_day;
-        day2Items[5].innerHTML = '<img src="img/180/' + wDaily[1].code_night + '.png">';
-        day2Items[6].innerText = wDaily[1].text_night;
-
-        var day3Items = document.querySelectorAll(".day3_item");
-        day3Items[0].innerText = wDaily[2].date;
-        day3Items[1].innerHTML = '<img src="img/180/' + wDaily[2].code_day + '.png">';  
-        day3Items[2].innerText = wDaily[2].high + "℃";
-        day3Items[3].innerText = wDaily[2].low + "℃";
-        day3Items[4].innerText = wDaily[2].text_day;
-        day3Items[5].innerHTML = '<img src="img/180/' + wDaily[2].code_night + '.png">';
-        day3Items[6].innerText = wDaily[2].text_night;
-      }      
+        var wDaily = data.results[0].daily;        
+        var dates = document.querySelectorAll(".date");
+        var dIcons =document.querySelectorAll(".d_icon");
+        var temHighs = document.querySelectorAll(".tem_high");
+        var temLows = document.querySelectorAll(".tem_low");
+        var dTexts = document.querySelectorAll(".d_text");
+        var nIcons =document.querySelectorAll(".n_icon");
+        var nTexts = document.querySelectorAll(".n_text");
+        
+        for(var i=0; i<dates.length; i++) {
+          dates[i].innerText = wDaily[i].date;
+          dIcons[i].innerHTML = '<img src="img/180/' + wDaily[i].code_day + '.png">';
+          temHighs[i].innerText = wDaily[i].high + "℃";
+          temLows[i].innerText = wDaily[i].low + "℃";
+          dTexts[i].innerText = wDaily[i].text_day;
+          nIcons[i].innerHTML = '<img src="img/180/' + wDaily[i].code_night + '.png">';
+          nTexts[i].innerText = wDaily[i].text_night;
+        }
+      }       
 
       function lifeSugCallback(data) {
         var sug = data.results[0].suggestion;
@@ -198,8 +186,6 @@
       function searchCallback(data) {
         console.log('searchCity: ' + data.results[0].name);
       }
-
-
     </script>
   </body>
 </html>

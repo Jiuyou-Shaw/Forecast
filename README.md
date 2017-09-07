@@ -1,2 +1,3 @@
 # Forecast
-简洁的天气应用
+天气应用
+<img src="img/example.png" width="80%">
