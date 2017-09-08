@@ -113,3 +113,57 @@ body {
   margin: auto;
   text-align: center;
 }
+
+.search {
+  position: relative;
+  width: 600px;
+}
+.search fieldset {
+  height: 3rem;
+  margin: 0;
+  padding: 0;
+  border: 3px solid rgba(241, 172, 172, 0.40);
+}
+input[type="search"] {
+  display: inline-block;
+  width: 80%;
+  height: 100%;
+  padding-left: .5rem;
+  font-size: 1rem;
+  color: #fff;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+input[type="submit"] {
+  display: inline-block;
+  width: 20%;
+  height: 100%;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(239, 231, 231, 0.20);
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.tip {
+  display: block;
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  padding: 0;    
+  background: rgba(0,0,0,.2);
+  /* border-top: 2px solid rgba(0,0,0,.2); */
+  list-style: none;
+  z-index: 10;
+}
+.tip li {
+  padding: .2rem .5rem;
+  font-size: 1rem;
+  /* border-bottom: 1px solid #ccc; */
+  cursor: pointer;
+}
+.tip li:hover {
+  background: rgba(186, 155, 155, 0.10);
+  font-weight: 500;
+}

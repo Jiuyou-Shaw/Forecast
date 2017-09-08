@@ -22,6 +22,16 @@
         <div class="today_text t_item"></div>
       </div>
       
+      <div class="search">
+        <form action="#">
+          <fieldset>
+            <input type="search" id="search" placeholder="搜索其它城市"><input type="submit" id="btn" value="SEARCH">
+          </fieldset>                    
+        </form>
+        <ul class="tip">
+        </ul>
+      </div>
+
       <div class="detail">
         <div class="car">
           洗车：
@@ -139,6 +149,7 @@
         newScript.type = "text/javascript";
         newScript.src = url;
         document.body.append(newScript);
+        newScript.remove();
       }
 
       function nowCallback(data) {
@@ -149,6 +160,18 @@
         tItems[1].style.background = 'url(img/180/' + weather.now.code + '.png)  center center';
         tItems[2].innerText = weather.now.temperature;
         tItems[3].innerText = weather.now.text;
+
+        setBackground(weather.now.code);
+      }
+
+      function setBackground(code) {
+        if(code<4) {
+          document.body.style.background = 'url(img/background/sun.jpg) center';
+        } else if(code<9) {
+          document.body.style.background = 'url(img/background/cloud.jpg) center';
+        } else {
+          document.body.style.background = 'url(img/background/rain.jpg) center';
+        }
       }
 
       function dailyCallback(data)  {
@@ -175,6 +198,7 @@
       function lifeSugCallback(data) {
         var sug = data.results[0].suggestion;
         var dItems = document.querySelectorAll(".d_item");
+
         dItems[0].innerText = sug.car_washing.brief;
         dItems[1].innerText = sug.dressing.brief;
         dItems[2].innerText = sug.flu.brief;
@@ -184,8 +208,42 @@
       }
 
       function searchCallback(data) {
-        console.log('searchCity: ' + data.results[0].name);
+        tipUl.innerHTML = "";    
+        if(!data || !data.results) return;
+        tipUl.style.display = "block";
+        for(var i in data.results) {
+          var oLi = document.createElement("li");
+          oLi.innerText = data.results[i].name;
+          tipUl.appendChild(oLi);
+
+          oLi.onclick = function() {            
+            tipUl.style.display = "none";
+            setUrl(this.innerText);            
+          }
+        }   
       }
+
+      var tipUl = document.querySelector(".tip");
+      var oSearch = document.querySelector("#search");
+      var oBtn = document.querySelector("#btn");
+      oSearch.onkeyup = getInpVal;
+      oBtn.onclick = function() {
+        setUrl(oSearch.value);
+        tipUl.style.display = "none";
+        };
+      
+      function getInpVal() {
+        if(this.value !== '') {
+          showTip(this.value);
+        }
+      }
+      
+      function showTip(val) {
+        var str = setUrlStr();
+        var searchUrl = searchApi + "?" + str + "&q=" + val + "&limit=10" + "&callback=searchCallback";
+        createScript(searchUrl);
+      }
+
     </script>
   </body>
 </html>
